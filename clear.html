@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>HOLE - CLEAR</title>
+    <style>
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #fff; /* ホワイトアウト後の白 */
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* クリア画像コンテナ */
+        .clear-container {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0;
+            animation: fadeIn 3s ease-out forwards; /* じわっと表示 */
+        }
+
+        .clear-image {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain; /* 画像全体を表示 */
+        }
+
+        /* Xシェアボタン */
+        .share-button {
+            position: absolute;
+            bottom: 15%; /* 下から15%の位置（画像のデザインに合わせて調整してください） */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background-color: #000; /* X(Twitter)カラー */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex; align-items: center; gap: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .share-button:hover {
+            background-color: #333;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="clear-container">
+    <img src="image/clear_result.png" alt="CLEAR" class="clear-image">
+
+    <a id="x-share" href="#" target="_blank" class="share-button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+        </svg>
+        結果をシェアする
+    </a>
+</div>
+
+<script>
+    // シェア内容の設定
+    const shareText = "謎解き「HOLE」をクリアしました。\n私は奈落の底に辿り着いた。";
+    const shareUrl = window.location.href.replace('clear.html', 'index.html'); // トップのURL
+
+    const xShareBtn = document.getElementById('x-share');
+    xShareBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+
+    // 1度きりの体験にするため、ストレージをクリアしたい場合は以下を有効に
+    // localStorage.removeItem('hole_progress_v26');
+</script>
+
+</body>
+</html>

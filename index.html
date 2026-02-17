@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>HOLE</title>
+    <style>
+        /* --- 既存スタイル維持 --- */
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0; padding: 0; background: #fff;
+            overflow-x: hidden;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Meiryo', sans-serif;
+            scroll-behavior: auto !important;
+        }
+        #soil { position: fixed; inset: 0; background: #fff; z-index: 0; }
+        #quake-wrapper { position: relative; width: 100%; z-index: 1; overflow: hidden; }
+        #hole {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: clamp(280px, 75vw, 800px); height: 100%; background: #2b1d0e; 
+            box-shadow: inset 0 0 80px rgba(0,0,0,1);
+        }
+        #content {
+            position: relative; width: clamp(280px, 75vw, 800px); 
+            margin: 0 auto; display: flex; flex-direction: column; align-items: center;
+        }
+        .section {
+            opacity: 0; transform: translateY(30px); 
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 0 8%; color: #fff; text-align: center; width: 100%;
+        }
+        .section.show { opacity: 1; transform: translateY(0); }
+        .section[hidden] { display: none; }
+
+        #title, #info, #desc { margin-bottom: 100vh; }
+        .spacer { width: 100%; pointer-events: none; height: 0; }
+
+        h1 { font-size: clamp(40px, 12vw, 110px); letter-spacing: 0.2em; font-weight: 900; margin: 0; color: #fff; }
+        p { line-height: 1.8; font-size: 15px; color: #ccc; margin: 0; }
+
+        .step-title-img { display: block; height: 96px; max-width: 90%; width: auto; margin: 0 auto 20px auto; object-fit: contain; }
+        .step-img {
+            display: block; width: 100%; aspect-ratio: 2 / 1; background: rgba(255,255,255,0.05); 
+            object-fit: contain; margin: 30px auto; cursor: zoom-in; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .step5-img { aspect-ratio: 1 / 1 !important; width: 80% !important; margin: 0 auto 30px auto; }
+
+        /* 入力エリア・ヒントリンク */
+        .input-group { display: flex; justify-content: center; gap: 10px; margin-top: 30px; }
+        input { 
+            padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.3); 
+            font-size: 16px; width: 180px; max-width: 60%; background: rgba(0,0,0,0.5); color: #fff; outline: none;
+        }
+        input:disabled { opacity: 0.6; cursor: not-allowed; color: #aaa !important; }
+        button { padding: 14px 24px; background: #fff; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:disabled { background: #444; color: #888; cursor: not-allowed; }
+
+        /* 【追加】ヒントリンクのスタイル */
+        .hint-link {
+            display: block; margin-top: 15px; font-size: 13px; color: #aaa; text-decoration: none;
+            transition: color 0.3s;
+        }
+        .hint-link:hover { color: #fff; text-decoration: underline; }
+
+        #correct {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center;
+            font-size: clamp(40px, 8vw, 80px); color: #fff; opacity: 0; pointer-events: none; z-index: 1000; transition: 0.4s;
+            font-family: "MS明朝", serif;
+        }
+        #correct.show { opacity: 1; }
+
+        #image-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
+        #image-overlay img { max-width: 95%; max-height: 95%; object-fit: contain; }
+
+        #whiteout {
+            position: fixed; inset: 0; background: #fff; z-index: 9999;
+            opacity: 0; pointer-events: none; transition: opacity 5s ease-in;
+        }
+        #whiteout.active { opacity: 1; }
+
+        @keyframes quake-anim {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-8px, 6px); }
+            40% { transform: translate(8px, -6px); }
+            80% { transform: translate(5px, -3px); }
+        }
+        .run-quake { animation: quake-anim 0.35s ease-out; }
+    </style>
+</head>
+<body>
+
+<div id="whiteout"></div>
+<div id="soil"></div>
+
+<div id="quake-wrapper">
+    <div id="hole"></div>
+    <div id="content">
+        <div id="begin-spacer" class="spacer"></div>
+        <div class="section" id="title"><h1>HOLE</h1></div>
+        <div class="section" id="info">
+            <img src="image/attention_title.png" class="step-title-img" alt="ATTENTION">
+            <p>謎が解けなくて困った際は、ヒントをご活用ください。</p>
+        </div>
+        <div class="section" id="desc">
+            <p>正しい「言葉」を投げ入れるたび、<br>穴は深く、あなたを飲み込んでいく。</p>
+        </div>
+
+        <div class="section" id="step1">
+            <img src="image/step1_title.png" class="step-title-img" alt="STEP 1">
+            <div class="input-group"><input id="i-step1" autocomplete="off" placeholder="答え"><button id="b-step1">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="s-step2" class="spacer"></div>
+        <div class="section" id="step2" hidden>
+            <img src="image/step2_title.png" class="step-title-img" alt="STEP 2">
+            <img src="image/step2.png" class="step-img">
+            <div class="input-group"><input id="i-step2" autocomplete="off"><button id="b-step2">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="s-step3-1" class="spacer"></div>
+        <div class="section" id="step3-1" hidden>
+            <img src="image/step3-1_title.png" class="step-title-img" alt="STEP 3-1">
+            <div class="input-group"><input id="i-step3-1" autocomplete="off"><button id="b-step3-1">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="s-step3-2" class="spacer"></div>
+        <div class="section" id="step3-2" hidden>
+            <img src="image/step3-2_title.png" class="step-title-img" alt="STEP 3-2">
+            <img src="image/step3-2.png" class="step-img">
+            <div class="input-group"><input id="i-step3-2" autocomplete="off"><button id="b-step3-2">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="s-step4" class="spacer"></div>
+        <div class="section" id="step4" hidden>
+            <img src="image/step4_title.png" class="step-title-img" alt="STEP 4">
+            <img src="image/step4.png" class="step-img step5-img">
+            <div class="input-group"><input id="i-step4" autocomplete="off"><button id="b-step4">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="s-step5" class="spacer"></div>
+        <div class="section" id="step5" hidden>
+            <img src="image/step5_title.png" class="step-title-img" alt="STEP 5">
+            <img src="image/step5.png" class="step-img step5-img">
+            <div class="input-group"><input id="i-step5" autocomplete="off"><button id="b-step5">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="s-lastStep" class="spacer"></div>
+        <div class="section" id="lastStep" hidden>
+            <img src="image/lastStep_title.png" class="step-title-img" alt="LAST STEP">
+            <img src="image/lastStep.png" class="step-img step5-img">
+            <div class="input-group"><input id="i-lastStep" autocomplete="off"><button id="b-lastStep">送信</button></div>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+        </div>
+
+        <div id="bottom-spacer" class="spacer"></div>
+    </div>
+</div>
+
+<div id="correct">正解</div>
+<div id="image-overlay" onclick="this.style.display='none'"><img src="" id="overlay-img"></div>
+
+<script>
+    // --- 既存ロジック維持（省略なし） ---
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+    let audioCtx = null;
+    const answers = { 
+        'step1': ['スタート', 'すたーと', 'start', 'START'], 
+        'step2': ['トラップ', 'とらっぷ', 'trap', 'TRAP'], 
+        'step3-1': ['タテヤクシャ', 'たてやくしゃ', '立役者'], 
+        'step3-2': ['サイチョウセン', 'さいちょうせん', '再挑戦'],
+        'step4': ['ディープ', 'でぃーぷ', 'deep'], 
+        'step5': ['チジョウ', 'ちじょう', '地上'],
+        'lastStep': ['カギアナ', 'かぎあな', '鍵穴', 'keyhole']
+    };
+    const flow = ['step1', 'step2', 'step3-1', 'step3-2', 'step4', 'step5', 'lastStep'];
+
+    async function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') try { await audioCtx.resume(); } catch(e) {}
+    }
+
+    function playFallSound(durationMs) {
+        if (!audioCtx || audioCtx.state !== 'running') return;
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + durationMs/1000);
+        g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + durationMs/1000);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + durationMs/1000);
+    }
+
+    function playLandSound() {
+        if (!audioCtx || audioCtx.state !== 'running') return;
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.3);
+        g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    function updateLayout(targetId) {
+        const vh = window.innerHeight;
+        const currentStep = document.getElementById(targetId);
+        document.querySelectorAll('.spacer').forEach(s => s.style.height = '0px');
+        const titleH = document.getElementById('title').offsetHeight;
+        document.getElementById('begin-spacer').style.height = `${(vh - titleH) / 2}px`;
+        const targetIdx = flow.indexOf(targetId);
+        flow.slice(1, targetIdx + 1).forEach(id => {
+            const s = document.getElementById('s-' + id);
+            if (s) s.style.height = '80vh';
+        });
+        const currentH = currentStep ? currentStep.offsetHeight : 0;
+        document.getElementById('bottom-spacer').style.height = `${(vh - currentH) / 2}px`;
+        document.getElementById('quake-wrapper').style.height = `${document.getElementById('content').scrollHeight}px`;
+        return currentStep ? (currentStep.offsetTop - (vh - currentH) / 2) : 0;
+    }
+
+    async function gravityFall(targetId, withSound = true) {
+        const targetY = updateLayout(targetId);
+        const startY = window.pageYOffset;
+        const distance = targetY - startY;
+        const duration = 2400;
+        if (withSound) { await initAudio(); playFallSound(duration); }
+        return new Promise(resolve => {
+            let startTime = null;
+            function animate(t) {
+                if (!startTime) startTime = t;
+                const progress = Math.min((t - startTime) / duration, 1);
+                const ease = progress < 0.5 ? 4 * progress ** 3 : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                window.scrollTo(0, startY + (distance * ease));
+                if (progress < 1) requestAnimationFrame(animate);
+                else {
+                    if (withSound) {
+                        playLandSound();
+                        document.getElementById('quake-wrapper').classList.add('run-quake');
+                        setTimeout(() => document.getElementById('quake-wrapper').classList.remove('run-quake'), 350);
+                    }
+                    resolve();
+                }
+            }
+            requestAnimationFrame(animate);
+        });
+    }
+
+    async function startFinalSequence() {
+        await initAudio();
+        const fallDuration = 8000;
+        playFallSound(fallDuration);
+        document.getElementById('bottom-spacer').style.height = '80000px';
+        document.getElementById('hole').style.height = '100000px';
+        document.getElementById('quake-wrapper').style.height = '100000px';
+        setTimeout(() => document.getElementById('whiteout').classList.add('active'), 1500);
+        let startTime = null;
+        function step(t) {
+            if (!startTime) startTime = t;
+            const p = (t - startTime) / fallDuration;
+            const speed = 4500 * Math.pow(p, 2.5); 
+            window.scrollBy(0, speed);
+            if (p < 1) requestAnimationFrame(step);
+            else setTimeout(() => window.location.href = 'clear.html', 500);
+        }
+        requestAnimationFrame(step);
+    }
+
+    window.addEventListener('load', () => {
+        const saved = localStorage.getItem('hole_progress_v26') || 'step1';
+        if (saved === 'cleared') { window.location.href = 'clear.html'; return; }
+
+        updateLayout(saved);
+        window.scrollTo(0, 0);
+
+        ['title', 'info', 'desc'].forEach(id => document.getElementById(id).classList.add('show'));
+        
+        const targetIdx = flow.indexOf(saved);
+        flow.forEach((id, i) => {
+            if (i <= targetIdx) {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.hidden = false;
+                    el.classList.add('show');
+                    if (i < targetIdx) {
+                        const inp = document.getElementById('i-' + id);
+                        const btn = document.getElementById('b-' + id);
+                        if(inp) { inp.value = answers[id][0]; inp.disabled = true; }
+                        if(btn) btn.disabled = true;
+                    }
+                }
+            }
+        });
+        if (saved !== 'step1') setTimeout(() => gravityFall(saved, true), 1200);
+    });
+
+    async function handleCheck(id) {
+        await initAudio();
+        const input = document.getElementById('i-' + id);
+        const val = input.value.trim();
+        
+        if (answers[id]?.some(a => a.toLowerCase() === val.toLowerCase())) {
+            input.disabled = true;
+            document.getElementById('b-' + id).disabled = true;
+            document.getElementById('correct').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('correct').classList.remove('show');
+                if (id === 'lastStep') {
+                    localStorage.setItem('hole_progress_v26', 'cleared');
+                    startFinalSequence();
+                } else {
+                    const nextId = flow[flow.indexOf(id) + 1];
+                    localStorage.setItem('hole_progress_v26', nextId);
+                    const nextEl = document.getElementById(nextId);
+                    nextEl.hidden = false;
+                    gravityFall(nextId, true).then(() => nextEl.classList.add('show'));
+                }
+            }, 1400);
+        } else {
+            input.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}], {duration: 100, iterations: 3});
+        }
+    }
+
+    document.addEventListener('click', (e) => {
+        if (e.target.id.startsWith('b-')) handleCheck(e.target.id.replace('b-', ''));
+        if (e.target.classList.contains('step-img')) {
+            document.getElementById('overlay-img').src = e.target.src;
+            document.getElementById('image-overlay').style.display = 'flex';
+        }
+    });
+
+    document.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && e.target.id.startsWith('i-')) handleCheck(e.target.id.replace('i-', ''));
+    });
+
+    window.addEventListener('resize', () => {
+        const current = localStorage.getItem('hole_progress_v26') || 'step1';
+        if(current !== 'cleared') updateLayout(current);
+    });
+</script>
+</body>
+</html>
