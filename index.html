@@ -13,16 +13,20 @@
             font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Meiryo', sans-serif;
             scroll-behavior: auto !important;
         }
-        /* 深度に合わせて暗くなる背景 */
-        #soil { position: fixed; inset: 0; background: #e0d0c0; z-index: 0; transition: background 0.5s; }
+        /* 周囲の背景：最初は白(#fff) */
+        #soil { position: fixed; inset: 0; background: #fff; z-index: 0; transition: background 0.2s linear; }
+        
         #quake-wrapper { position: relative; width: 100%; z-index: 1; overflow: hidden; }
+        
+        /* 中央の穴：最初は少し明るい茶色 */
         #hole {
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
             width: clamp(280px, 75vw, 800px); height: 100%; 
             background: #2b1d0e; 
             box-shadow: inset 0 0 80px rgba(0,0,0,1);
-            transition: background 0.5s;
+            transition: background 0.2s linear;
         }
+        
         #content {
             position: relative; width: clamp(280px, 75vw, 800px); 
             margin: 0 auto; display: flex; flex-direction: column; align-items: center;
@@ -47,9 +51,9 @@
             object-fit: contain; margin: 30px auto; cursor: zoom-in; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
         }
         .step5-img { aspect-ratio: 1 / 1 !important; width: 80% !important; margin: 0 auto 30px auto; }
-
-        /* テキスト用の余白（内容物をここに入れる） */
-        .step-text { margin: 20px 0; color: #bbb; font-size: 15px; line-height: 1.6; }
+        
+        /* テキスト用余白クラス */
+        .step-text { margin: 20px 0; color: #bbb; font-size: 15px; line-height: 1.6; min-height: 1em; }
 
         .input-group { display: flex; justify-content: center; gap: 10px; margin-top: 30px; }
         input { 
@@ -60,8 +64,7 @@
         button { padding: 14px 24px; background: #fff; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
         button:disabled { background: #444; color: #888; cursor: not-allowed; }
 
-        .hint-link { display: block; margin-top: 15px; font-size: 13px; color: #aaa; text-decoration: none; transition: color 0.3s; }
-        .hint-link:hover { color: #fff; text-decoration: underline; }
+        .hint-link { display: block; margin-top: 15px; font-size: 13px; color: #aaa; text-decoration: none; }
 
         #correct {
             position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center;
@@ -75,7 +78,7 @@
 
         #whiteout {
             position: fixed; inset: 0; background: #fff; z-index: 9999;
-            opacity: 0; pointer-events: none; transition: opacity 4s ease-in;
+            opacity: 0; pointer-events: none; transition: opacity 3.5s ease-in;
         }
         #whiteout.active { opacity: 1; }
 
@@ -97,11 +100,16 @@
     <div id="hole"></div>
     <div id="content">
         <div id="begin-spacer" class="spacer"></div>
-        <div class="section" id="title"><h1>HOLE</h1></div>
+        
+        <div class="section" id="title">
+            <h1>HOLE</h1>
+        </div>
+
         <div class="section" id="info">
             <img src="image/attention_title.png" class="step-title-img" alt="ATTENTION">
             <p>謎が解けなくて困った際は、ヒントをご活用ください。</p>
         </div>
+
         <div class="section" id="desc">
             <p>正しい「言葉」を投げ入れるたび、<br>穴は深く、あなたを飲み込んでいく。</p>
         </div>
@@ -109,7 +117,10 @@
         <div class="section" id="step1">
             <img src="image/step1_title.png" class="step-title-img" alt="STEP 1">
             <div class="step-text"></div>
-            <div class="input-group"><input id="i-step1" autocomplete="off" placeholder="答え"><button id="b-step1">送信</button></div>
+            <div class="input-group">
+                <input id="i-step1" autocomplete="off" placeholder="答え">
+                <button id="b-step1">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -118,7 +129,10 @@
             <img src="image/step2_title.png" class="step-title-img" alt="STEP 2">
             <div class="step-text"></div>
             <img src="image/step2.png" class="step-img">
-            <div class="input-group"><input id="i-step2" autocomplete="off"><button id="b-step2">送信</button></div>
+            <div class="input-group">
+                <input id="i-step2" autocomplete="off">
+                <button id="b-step2">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -126,7 +140,10 @@
         <div class="section" id="step3-1" hidden>
             <img src="image/step3-1_title.png" class="step-title-img" alt="STEP 3-1">
             <div class="step-text"></div>
-            <div class="input-group"><input id="i-step3-1" autocomplete="off"><button id="b-step3-1">送信</button></div>
+            <div class="input-group">
+                <input id="i-step3-1" autocomplete="off">
+                <button id="b-step3-1">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -134,7 +151,10 @@
         <div class="section" id="step3-2" hidden>
             <img src="image/step3-2_title.png" class="step-title-img" alt="STEP 3-2">
             <img src="image/step3-2.png" class="step-img">
-            <div class="input-group"><input id="i-step3-2" autocomplete="off"><button id="b-step3-2">送信</button></div>
+            <div class="input-group">
+                <input id="i-step3-2" autocomplete="off">
+                <button id="b-step3-2">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -142,7 +162,10 @@
         <div class="section" id="step4" hidden>
             <img src="image/step4_title.png" class="step-title-img" alt="STEP 4">
             <img src="image/step4.png" class="step-img step5-img">
-            <div class="input-group"><input id="i-step4" autocomplete="off"><button id="b-step4">送信</button></div>
+            <div class="input-group">
+                <input id="i-step4" autocomplete="off">
+                <button id="b-step4">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -150,7 +173,10 @@
         <div class="section" id="step5" hidden>
             <img src="image/step5_title.png" class="step-title-img" alt="STEP 5">
             <img src="image/step5.png" class="step-img step5-img">
-            <div class="input-group"><input id="i-step5" autocomplete="off"><button id="b-step5">送信</button></div>
+            <div class="input-group">
+                <input id="i-step5" autocomplete="off">
+                <button id="b-step5">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -158,7 +184,10 @@
         <div class="section" id="lastStep" hidden>
             <img src="image/lastStep_title.png" class="step-title-img" alt="LAST STEP">
             <img src="image/lastStep.png" class="step-img step5-img">
-            <div class="input-group"><input id="i-lastStep" autocomplete="off"><button id="b-lastStep">送信</button></div>
+            <div class="input-group">
+                <input id="i-lastStep" autocomplete="off">
+                <button id="b-lastStep">送信</button>
+            </div>
             <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
@@ -176,7 +205,7 @@
     let isFalling = false;
     let hasInteractedForResume = false;
 
-    // --- 正解リスト ---
+    // --- 正解データ ---
     const answers = { 
         'step1': ['スタート', 'すたーと', 'start', 'START'], 
         'step2': ['トラップ', 'とらっぷ', 'trap', 'TRAP'], 
@@ -188,32 +217,36 @@
     };
     const flow = ['step1', 'step2', 'step3-1', 'step3-2', 'step4', 'step5', 'lastStep'];
 
-    // --- 深度に応じた暗転演出 ---
+    // --- 背景色の動的変化 ---
     function updateDarkness() {
-        // 無限落下中はスクロール位置が極端になるため、通常時のみ適用
-        if(isFalling && localStorage.getItem('hole_progress_v26') === 'cleared') return;
+        const currentProgress = localStorage.getItem('hole_progress_v26') || 'step1';
+        // クリア演出中は固定
+        if(isFalling && currentProgress === 'cleared') return;
 
         const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
         const p = Math.min(window.pageYOffset / (scrollMax || 1), 1);
         
-        // 土の色: e0d0c0(明) -> 1a1510(暗)
-        const rS = 224 - (224 - 26) * p;
-        const gS = 208 - (208 - 21) * p;
-        const bS = 192 - (192 - 16) * p;
+        // 周囲(soil)：白(#fff) -> 濃い茶色(#1a1510)
+        const rS = 255 - (255 - 26) * p;
+        const gS = 255 - (255 - 21) * p;
+        const bS = 255 - (255 - 16) * p;
         document.getElementById('soil').style.background = `rgb(${rS}, ${gS}, ${bS})`;
 
-        // 穴の色: 2b1d0e(明) -> 050302(境界がギリ分かる暗さ)
+        // 穴(hole)：初期茶色(#2b1d0e) -> ほぼ黒(#050302)
         const rH = 43 - (43 - 5) * p;
         const gH = 29 - (29 - 3) * p;
         const bH = 14 - (14 - 2) * p;
         document.getElementById('hole').style.background = `rgb(${rH}, ${gH}, ${bH})`;
     }
+
     window.addEventListener('scroll', updateDarkness);
 
-    // --- 音声エンジン ---
+    // --- オーディオ制御 ---
     async function initAudio() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') try { await audioCtx.resume(); } catch(e) {}
+        if (audioCtx.state === 'suspended') {
+            try { await audioCtx.resume(); } catch(e) { console.warn("Audio resume failed", e); }
+        }
     }
 
     function playFallSound(durationMs) {
@@ -240,25 +273,37 @@
         osc.start(); osc.stop(audioCtx.currentTime + 0.3);
     }
 
-    // --- レイアウト更新 ---
+    // --- レイアウト計算 ---
     function updateLayout(targetId) {
         const vh = window.innerHeight;
         const currentStep = document.getElementById(targetId);
+        
+        // 全スペーサーを一旦リセット
         document.querySelectorAll('.spacer').forEach(s => s.style.height = '0px');
+        
+        // 最初の余白
         const titleH = document.getElementById('title').offsetHeight;
         document.getElementById('begin-spacer').style.height = `${(vh - titleH) / 2}px`;
+        
+        // 現在のステップまでのスペーサーを配置
         const targetIdx = flow.indexOf(targetId);
         flow.slice(1, targetIdx + 1).forEach(id => {
             const s = document.getElementById('s-' + id);
             if (s) s.style.height = '80vh';
         });
+
+        // 最後の余白
         const currentH = currentStep ? currentStep.offsetHeight : 0;
         document.getElementById('bottom-spacer').style.height = `${(vh - currentH) / 2}px`;
+        
+        // 穴の高さをコンテンツに合わせる
         document.getElementById('quake-wrapper').style.height = `${document.getElementById('content').scrollHeight}px`;
+        
+        // ターゲット位置を返す
         return currentStep ? (currentStep.offsetTop - (vh - currentH) / 2) : 0;
     }
 
-    // --- 落下処理 ---
+    // --- 落下アニメーション ---
     async function gravityFall(targetId, withSound = true) {
         if (isFalling) return;
         isFalling = true;
@@ -278,10 +323,12 @@
             function animate(t) {
                 if (!startTime) startTime = t;
                 const progress = Math.min((t - startTime) / duration, 1);
+                // イージング
                 const ease = progress < 0.5 ? 4 * progress ** 3 : 1 - Math.pow(-2 * progress + 2, 3) / 2;
                 window.scrollTo(0, startY + (distance * ease));
-                if (progress < 1) requestAnimationFrame(animate);
-                else {
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
                     if (withSound) {
                         playLandSound();
                         document.getElementById('quake-wrapper').classList.add('run-quake');
@@ -295,18 +342,19 @@
         });
     }
 
-    // --- ラストシーケンス（二重明転修正済み） ---
+    // --- クリア演出（無限落下） ---
     async function startFinalSequence() {
         if (isFalling) return;
         isFalling = true;
         await initAudio();
-        const fallDuration = 8000;
-        playFallSound(fallDuration);
-        
+        const fallDur = 8000;
+        playFallSound(fallDur);
+
+        // 落下距離を稼ぐ
         document.getElementById('bottom-spacer').style.height = '80000px';
         document.getElementById('quake-wrapper').style.height = '100000px';
         
-        // ホワイトアウトの開始を少し遅らせて演出効果を高める
+        // 3秒後からホワイトアウト開始
         setTimeout(() => {
             document.getElementById('whiteout').classList.add('active');
         }, 3000);
@@ -314,29 +362,39 @@
         let startTime = null;
         function step(t) {
             if (!startTime) startTime = t;
-            const p = (t - startTime) / fallDuration;
+            const p = (t - startTime) / fallDur;
             const speed = 4500 * Math.pow(p, 2.5); 
             window.scrollBy(0, speed);
-            if (p < 1) requestAnimationFrame(step);
-            else {
-                // ホワイトアウトが完了するタイミングで遷移
-                setTimeout(() => window.location.href = 'clear.html', 1000);
+            if (p < 1) {
+                requestAnimationFrame(step);
+            } else {
+                setTimeout(() => {
+                    window.location.href = 'clear.html';
+                }, 800);
             }
         }
         requestAnimationFrame(step);
     }
 
-    // --- 初期化 ---
+    // --- 初期化処理 ---
     window.addEventListener('load', () => {
         const saved = localStorage.getItem('hole_progress_v26') || 'step1';
-        if (saved === 'cleared') { window.location.href = 'clear.html'; return; }
+        if (saved === 'cleared') {
+            window.location.href = 'clear.html';
+            return;
+        }
 
         updateLayout(saved);
         updateDarkness();
         window.scrollTo(0, 0);
 
-        ['title', 'info', 'desc'].forEach(id => document.getElementById(id).classList.add('show'));
+        // タイトル等を表示
+        ['title', 'info', 'desc'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.classList.add('show');
+        });
         
+        // 進捗に合わせて表示
         const targetIdx = flow.indexOf(saved);
         flow.forEach((id, i) => {
             const el = document.getElementById(id);
@@ -352,6 +410,7 @@
             }
         });
 
+        // リロード時の復帰用（画面タップで落下開始）
         if (saved !== 'step1') {
             const resumeHandler = async () => {
                 if (hasInteractedForResume) return;
@@ -366,7 +425,7 @@
         }
     });
 
-    // --- 正解判定 ---
+    // --- 正解判定メイン ---
     async function handleCheck(id) {
         if (isFalling) return;
         await initAudio();
@@ -374,9 +433,11 @@
         const val = input.value.trim();
         
         if (answers[id]?.some(a => a.toLowerCase() === val.toLowerCase())) {
+            // 正解
             input.disabled = true;
             document.getElementById('b-' + id).disabled = true;
             document.getElementById('correct').classList.add('show');
+            
             setTimeout(() => {
                 document.getElementById('correct').classList.remove('show');
                 if (id === 'lastStep') {
@@ -386,21 +447,30 @@
                     const nextId = flow[flow.indexOf(id) + 1];
                     localStorage.setItem('hole_progress_v26', nextId);
                     const nextEl = document.getElementById(nextId);
-                    nextEl.hidden = false;
-                    gravityFall(nextId, true).then(() => {
-                        nextEl.classList.add('show');
-                        updateDarkness();
-                    });
+                    if(nextEl) {
+                        nextEl.hidden = false;
+                        gravityFall(nextId, true).then(() => {
+                            nextEl.classList.add('show');
+                            updateDarkness();
+                        });
+                    }
                 }
             }, 1400);
         } else {
-            input.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}], {duration: 100, iterations: 3});
+            // 不正解
+            input.animate([
+                {transform:'translateX(-6px)'},
+                {transform:'translateX(6px)'},
+                {transform:'translateX(0)'}
+            ], {duration: 100, iterations: 3});
         }
     }
 
     // --- イベントリスナー ---
     document.addEventListener('click', (e) => {
-        if (e.target.id.startsWith('b-')) handleCheck(e.target.id.replace('b-', ''));
+        if (e.target.id && e.target.id.startsWith('b-')) {
+            handleCheck(e.target.id.replace('b-', ''));
+        }
         if (e.target.classList.contains('step-img')) {
             document.getElementById('overlay-img').src = e.target.src;
             document.getElementById('image-overlay').style.display = 'flex';
@@ -408,7 +478,9 @@
     });
 
     document.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && e.target.id.startsWith('i-')) handleCheck(e.target.id.replace('i-', ''));
+        if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('i-')) {
+            handleCheck(e.target.id.replace('i-', ''));
+        }
     });
 
     window.addEventListener('resize', () => {
