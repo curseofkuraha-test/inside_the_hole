@@ -9,78 +9,76 @@
         * { box-sizing: border-box; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #fff; /* ホワイトアウト後の白 */
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* クリア画像コンテナ */
         .clear-container {
             position: relative;
-            width: 100%; height: 100%;
+            width: 100%; height: 80%;
             display: flex; align-items: center; justify-content: center;
             opacity: 0;
-            animation: fadeIn 3s ease-out forwards; /* じわっと表示 */
+            animation: fadeIn 3s ease-out forwards;
         }
 
-        .clear-image {
-            max-width: 100%; max-height: 100%;
-            object-fit: contain; /* 画像全体を表示 */
+        .clear-image { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .img-sp { display: none; }
+        .img-pc { display: block; }
+
+        @media (max-width: 768px), (orientation: portrait) {
+            .img-pc { display: none; }
+            .img-sp { display: block; }
         }
 
-        /* Xシェアボタン */
+        .ui-group {
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            z-index: 100; opacity: 0; animation: fadeIn 3s 1s ease-out forwards;
+        }
+
         .share-button {
-            position: absolute;
-            bottom: 15%; /* 下から15%の位置（画像のデザインに合わせて調整してください） */
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 24px;
-            background-color: #000; /* X(Twitter)カラー */
-            color: #fff;
-            text-decoration: none;
-            border-radius: 9999px;
-            font-weight: bold;
-            font-size: 14px;
+            padding: 12px 24px; background-color: #000; color: #fff;
+            text-decoration: none; border-radius: 9999px; font-weight: bold; font-size: 14px;
             display: flex; align-items: center; gap: 8px;
-            transition: transform 0.2s, background-color 0.2s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .share-button:hover {
-            background-color: #333;
-            transform: translateX(-50%) scale(1.05);
+
+        .reset-button {
+            background: none; border: none; color: #ccc;
+            text-decoration: underline; cursor: pointer; font-size: 12px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="clear-container">
-    <img src="image/clear_result.png" alt="CLEAR" class="clear-image">
+    <img src="image/clear_result_sp.png" alt="CLEAR" class="clear-image img-sp">
+    <img src="image/clear_result_pc.png" alt="CLEAR" class="clear-image img-pc">
+</div>
 
+<div class="ui-group">
     <a id="x-share" href="#" target="_blank" class="share-button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
         </svg>
         結果をシェアする
     </a>
+    <button class="reset-button" onclick="resetGame()">最初から遊ぶ（テスト用）</button>
 </div>
 
 <script>
-    // シェア内容の設定
     const shareText = "謎解き「HOLE」をクリアしました。\n私は奈落の底に辿り着いた。";
-    const shareUrl = window.location.href.replace('clear.html', 'index.html'); // トップのURL
+    const shareUrl = window.location.href.replace('clear.html', 'index.html');
+    document.getElementById('x-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
 
-    const xShareBtn = document.getElementById('x-share');
-    xShareBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-
-    // 1度きりの体験にするため、ストレージをクリアしたい場合は以下を有効に
-    // localStorage.removeItem('hole_progress_v26');
+    function resetGame() {
+        if(confirm('進捗をリセットして最初から遊びますか？')) {
+            localStorage.removeItem('hole_progress_v26');
+            window.location.href = 'index.html';
+        }
+    }
 </script>
-
 </body>
 </html>
