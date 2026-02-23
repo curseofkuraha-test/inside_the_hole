@@ -6,6 +6,9 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>HOLE</title>
     <style>
+        /* =========================================
+           基本レイアウト
+           ========================================= */
         * { box-sizing: border-box; }
         html, body {
             margin: 0; padding: 0; background: #fff;
@@ -13,74 +16,212 @@
             font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Meiryo', sans-serif;
             scroll-behavior: auto !important;
         }
-        /* 周囲の背景：最初は白(#fff) */
-        #soil { position: fixed; inset: 0; background: #fff; z-index: 0; transition: background 0.2s linear; }
+
+        /* 周囲の背景（土）：最初は真っ白 */
+        #soil { 
+            position: fixed; 
+            inset: 0; 
+            background: #ffffff; 
+            z-index: 0; 
+            transition: background 3.5s ease-in-out; 
+        }
         
-        #quake-wrapper { position: relative; width: 100%; z-index: 1; overflow: hidden; }
+        #quake-wrapper { 
+            position: relative; 
+            width: 100%; 
+            z-index: 1; 
+            overflow: hidden; 
+        }
         
-        /* 中央の穴：最初は少し明るい茶色 */
+        /* 中央の穴：最初は標準的な茶色 */
         #hole {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: clamp(280px, 75vw, 800px); height: 100%; 
+            position: absolute; 
+            top: 0; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: clamp(280px, 75vw, 800px); 
+            height: 100%; 
             background: #2b1d0e; 
             box-shadow: inset 0 0 80px rgba(0,0,0,1);
-            transition: background 0.2s linear;
+            transition: background 3.5s ease-in-out;
         }
         
+        /* コンテンツエリア */
         #content {
-            position: relative; width: clamp(280px, 75vw, 800px); 
-            margin: 0 auto; display: flex; flex-direction: column; align-items: center;
+            position: relative; 
+            width: clamp(280px, 75vw, 800px); 
+            margin: 0 auto; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
         }
+
+        /* セクション共通設定 */
         .section {
-            opacity: 0; transform: translateY(30px); 
-            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-            padding: 0 8%; color: #fff; text-align: center; width: 100%;
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 0 8%; 
+            color: #fff; 
+            text-align: center; 
+            width: 100%;
         }
-        .section.show { opacity: 1; transform: translateY(0); }
-        .section[hidden] { display: none; }
+        .section.show { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        .section[hidden] { 
+            display: none; 
+        }
 
-        #title, #info, #desc { margin-bottom: 100vh; }
-        .spacer { width: 100%; pointer-events: none; height: 0; }
+        /* 導入部の大きな余白 */
+        #title, #info, #desc { 
+            margin-bottom: 100vh; 
+        }
 
-        h1 { font-size: clamp(40px, 12vw, 110px); letter-spacing: 0.2em; font-weight: 900; margin: 0; color: #fff; }
-        p { line-height: 1.8; font-size: 15px; color: #ccc; margin: 0; }
+        /* 動的スペーサー */
+        .spacer { 
+            width: 100%; 
+            pointer-events: none; 
+            height: 0; 
+        }
 
-        .step-title-img { display: block; height: 96px; max-width: 90%; width: auto; margin: 0 auto 20px auto; object-fit: contain; }
+        /* テキスト・タイトル装飾 */
+        h1 { 
+            font-size: clamp(40px, 12vw, 110px); 
+            letter-spacing: 0.2em; 
+            font-weight: 900; 
+            margin: 0; 
+            color: #fff; 
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        p { 
+            line-height: 2.0; 
+            font-size: 15px; 
+            color: #ccc; 
+            margin: 0; 
+        }
+
+        .step-title-img { 
+            display: block; 
+            height: 96px; 
+            max-width: 90%; 
+            width: auto; 
+            margin: 0 auto 20px auto; 
+            object-fit: contain; 
+        }
         .step-img {
-            display: block; width: 100%; aspect-ratio: 2 / 1; background: rgba(255,255,255,0.05); 
-            object-fit: contain; margin: 30px auto; cursor: zoom-in; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
+            display: block; 
+            width: 100%; 
+            aspect-ratio: 2 / 1; 
+            background: rgba(255,255,255,0.05); 
+            object-fit: contain; 
+            margin: 40px auto; 
+            cursor: zoom-in; 
+            border-radius: 4px; 
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .step5-img { aspect-ratio: 1 / 1 !important; width: 80% !important; margin: 0 auto 30px auto; }
+        .step5-img { 
+            aspect-ratio: 1 / 1 !important; 
+            width: 80% !important; 
+            margin: 0 auto 30px auto; 
+        }
         
-        /* テキスト用余白クラス */
-        .step-text { margin: 20px 0; color: #bbb; font-size: 15px; line-height: 1.6; min-height: 1em; }
-
-        .input-group { display: flex; justify-content: center; gap: 10px; margin-top: 30px; }
-        input { 
-            padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.3); 
-            font-size: 16px; width: 180px; max-width: 60%; background: rgba(0,0,0,0.5); color: #fff; outline: none;
+        .step-text { 
+            margin: 25px 0; 
+            color: #bbb; 
+            font-size: 15px; 
+            line-height: 1.8; 
+            min-height: 1.2em; 
         }
-        input:disabled { opacity: 0.6; cursor: not-allowed; color: #aaa !important; }
-        button { padding: 14px 24px; background: #fff; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button:disabled { background: #444; color: #888; cursor: not-allowed; }
 
-        .hint-link { display: block; margin-top: 15px; font-size: 13px; color: #aaa; text-decoration: none; }
+        /* 入力フォーム */
+        .input-group { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            margin-top: 35px; 
+        }
+        input { 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            font-size: 16px; 
+            width: 200px; 
+            max-width: 60%; 
+            background: rgba(0,0,0,0.6); 
+            color: #fff; 
+            outline: none;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: rgba(255,255,255,0.5);
+        }
+        input:disabled { 
+            opacity: 0.5; 
+            cursor: not-allowed; 
+            color: #888 !important; 
+        }
+        button { 
+            padding: 15px 28px; 
+            background: #fff; 
+            color: #000; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: transform 0.1s, background 0.2s;
+        }
+        button:active { transform: scale(0.95); }
+        button:disabled { 
+            background: #333; 
+            color: #666; 
+            cursor: not-allowed; 
+        }
 
+        .hint-link { 
+            display: block; 
+            margin-top: 20px; 
+            font-size: 13px; 
+            color: #888; 
+            text-decoration: none; 
+            transition: color 0.3s;
+        }
+        .hint-link:hover { color: #fff; }
+
+        /* 特殊演出用 */
         #correct {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center;
-            font-size: clamp(40px, 8vw, 80px); color: #fff; opacity: 0; pointer-events: none; z-index: 1000; transition: 0.4s;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); 
+            display: flex; align-items: center; justify-content: center;
+            font-size: clamp(40px, 8vw, 80px); color: #fff; 
+            opacity: 0; pointer-events: none; z-index: 1000; 
+            transition: opacity 0.5s;
             font-family: "MS明朝", serif;
+            letter-spacing: 0.5em;
         }
         #correct.show { opacity: 1; }
 
-        #image-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
+        #image-overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); 
+            z-index: 2000; display: none; align-items: center; 
+            justify-content: center; cursor: zoom-out; 
+        }
         #image-overlay img { max-width: 95%; max-height: 95%; object-fit: contain; }
 
         #whiteout {
             position: fixed; inset: 0; background: #fff; z-index: 9999;
-            opacity: 0; pointer-events: none; transition: opacity 3.5s ease-in;
+            opacity: 0; pointer-events: none; transition: opacity 4.0s ease-in;
         }
         #whiteout.active { opacity: 1; }
+
+        #resume-guide {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); color: #fff; padding: 12px 24px;
+            border-radius: 40px; font-size: 14px; z-index: 500; 
+            pointer-events: none; opacity: 0; transition: opacity 0.8s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        #resume-guide.visible { opacity: 1; }
 
         @keyframes quake-anim {
             0%, 100% { transform: translate(0, 0); }
@@ -95,6 +236,7 @@
 
 <div id="whiteout"></div>
 <div id="soil"></div>
+<div id="resume-guide">画面をタップして深淵へ戻る</div>
 
 <div id="quake-wrapper">
     <div id="hole"></div>
@@ -107,7 +249,7 @@
 
         <div class="section" id="info">
             <img src="image/attention_title.png" class="step-title-img" alt="ATTENTION">
-            <p>謎が解けなくて困った際は、ヒントをご活用ください。</p>
+            <p>謎が解けなくて困った際は、<br>ヒントをご活用ください。</p>
         </div>
 
         <div class="section" id="desc">
@@ -116,35 +258,35 @@
 
         <div class="section" id="step1">
             <img src="image/step1_title.png" class="step-title-img" alt="STEP 1">
-            <div class="step-text"></div>
+            <div class="step-text">すべてはここから始まる。</div>
             <div class="input-group">
-                <input id="i-step1" autocomplete="off" placeholder="答え">
+                <input id="i-step1" autocomplete="off" placeholder="答えを入力">
                 <button id="b-step1">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="s-step2" class="spacer"></div>
         <div class="section" id="step2" hidden>
             <img src="image/step2_title.png" class="step-title-img" alt="STEP 2">
-            <div class="step-text"></div>
+            <div class="step-text">見えているものが全てではない。</div>
             <img src="image/step2.png" class="step-img">
             <div class="input-group">
                 <input id="i-step2" autocomplete="off">
                 <button id="b-step2">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="s-step3-1" class="spacer"></div>
         <div class="section" id="step3-1" hidden>
             <img src="image/step3-1_title.png" class="step-title-img" alt="STEP 3-1">
-            <div class="step-text"></div>
+            <div class="step-text">深く、もっと深く。</div>
             <div class="input-group">
                 <input id="i-step3-1" autocomplete="off">
                 <button id="b-step3-1">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="s-step3-2" class="spacer"></div>
@@ -155,7 +297,7 @@
                 <input id="i-step3-2" autocomplete="off">
                 <button id="b-step3-2">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="s-step4" class="spacer"></div>
@@ -166,7 +308,7 @@
                 <input id="i-step4" autocomplete="off">
                 <button id="b-step4">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="s-step5" class="spacer"></div>
@@ -177,7 +319,7 @@
                 <input id="i-step5" autocomplete="off">
                 <button id="b-step5">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="s-lastStep" class="spacer"></div>
@@ -188,7 +330,7 @@
                 <input id="i-lastStep" autocomplete="off">
                 <button id="b-lastStep">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示する</a>
         </div>
 
         <div id="bottom-spacer" class="spacer"></div>
@@ -199,13 +341,14 @@
 <div id="image-overlay" onclick="this.style.display='none'"><img src="" id="overlay-img"></div>
 
 <script>
+    // ブラウザのスクロール復元を無効化
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
     let audioCtx = null;
     let isFalling = false;
     let hasInteractedForResume = false;
 
-    // --- 正解データ ---
+    // --- 各ステップの回答データ ---
     const answers = { 
         'step1': ['スタート', 'すたーと', 'start', 'START'], 
         'step2': ['トラップ', 'とらっぷ', 'trap', 'TRAP'], 
@@ -215,103 +358,131 @@
         'step5': ['チジョウ', 'ちじょう', '地上'],
         'lastStep': ['カギアナ', 'かぎあな', '鍵穴', 'keyhole']
     };
+    
+    // 進行フロー定義
     const flow = ['step1', 'step2', 'step3-1', 'step3-2', 'step4', 'step5', 'lastStep'];
 
-    // --- 背景色の動的変化 ---
-    function updateDarkness() {
-        const currentProgress = localStorage.getItem('hole_progress_v26') || 'step1';
-        // クリア演出中は固定
-        if(isFalling && currentProgress === 'cleared') return;
+    // --- 背景色マッピング（段階的に暗く） ---
+    const darknessMap = {
+        'step1':    { soil: '#ffffff', hole: '#2b1d0e' },
+        'step2':    { soil: '#d8ccc0', hole: '#23180b' },
+        'step3-1':  { soil: '#a89888', hole: '#1a1108' },
+        'step3-2':  { soil: '#786858', hole: '#140d06' },
+        'step4':    { soil: '#483830', hole: '#0c0804' },
+        'step5':    { soil: '#281d18', hole: '#060402' },
+        'lastStep': { soil: '#120e0d', hole: '#030201' } 
+    };
 
-        const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-        const p = Math.min(window.pageYOffset / (scrollMax || 1), 1);
-        
-        // 周囲(soil)：白(#fff) -> 濃い茶色(#1a1510)
-        const rS = 255 - (255 - 26) * p;
-        const gS = 255 - (255 - 21) * p;
-        const bS = 255 - (255 - 16) * p;
-        document.getElementById('soil').style.background = `rgb(${rS}, ${gS}, ${bS})`;
-
-        // 穴(hole)：初期茶色(#2b1d0e) -> ほぼ黒(#050302)
-        const rH = 43 - (43 - 5) * p;
-        const gH = 29 - (29 - 3) * p;
-        const bH = 14 - (14 - 2) * p;
-        document.getElementById('hole').style.background = `rgb(${rH}, ${gH}, ${bH})`;
+    /**
+     * 指定したステップの色を適用する
+     */
+    function applyDarkness(stepId) {
+        const colors = darknessMap[stepId] || darknessMap['step1'];
+        document.getElementById('soil').style.background = colors.soil;
+        document.getElementById('hole').style.background = colors.hole;
     }
 
-    window.addEventListener('scroll', updateDarkness);
-
-    // --- オーディオ制御 ---
+    /**
+     * オーディオコンテキストの初期化
+     */
     async function initAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
         if (audioCtx.state === 'suspended') {
-            try { await audioCtx.resume(); } catch(e) { console.warn("Audio resume failed", e); }
+            try { await audioCtx.resume(); } catch(e) { console.error("Audio resume error:", e); }
         }
     }
 
+    /**
+     * 落下音の再生
+     */
     function playFallSound(durationMs) {
         if (!audioCtx || audioCtx.state !== 'running') return;
         const osc = audioCtx.createOscillator();
         const g = audioCtx.createGain();
-        osc.frequency.setValueAtTime(450, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + durationMs/1000);
-        g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + durationMs/1000);
+        
+        g.gain.setValueAtTime(0.15, audioCtx.currentTime);
         g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + durationMs/1000);
-        osc.connect(g); g.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + durationMs/1000);
+        
+        osc.connect(g);
+        g.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + durationMs/1000);
     }
 
+    /**
+     * 着地音の再生
+     */
     function playLandSound() {
         if (!audioCtx || audioCtx.state !== 'running') return;
         const osc = audioCtx.createOscillator();
         const g = audioCtx.createGain();
-        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.3);
-        g.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
-        osc.connect(g); g.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.4);
+        
+        g.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+        
+        osc.connect(g);
+        g.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
     }
 
-    // --- レイアウト計算 ---
+    /**
+     * 画面レイアウトの再計算とターゲット位置の取得
+     */
     function updateLayout(targetId) {
         const vh = window.innerHeight;
         const currentStep = document.getElementById(targetId);
         
-        // 全スペーサーを一旦リセット
+        // スペーサーリセット
         document.querySelectorAll('.spacer').forEach(s => s.style.height = '0px');
         
-        // 最初の余白
+        // 冒頭の配置
         const titleH = document.getElementById('title').offsetHeight;
         document.getElementById('begin-spacer').style.height = `${(vh - titleH) / 2}px`;
         
-        // 現在のステップまでのスペーサーを配置
+        // 通過済みステップのスペーサーを配置
         const targetIdx = flow.indexOf(targetId);
         flow.slice(1, targetIdx + 1).forEach(id => {
             const s = document.getElementById('s-' + id);
-            if (s) s.style.height = '80vh';
+            if (s) s.style.height = '85vh';
         });
 
-        // 最後の余白
+        // 終端の配置
         const currentH = currentStep ? currentStep.offsetHeight : 0;
         document.getElementById('bottom-spacer').style.height = `${(vh - currentH) / 2}px`;
         
-        // 穴の高さをコンテンツに合わせる
+        // 全体の高さを同期
         document.getElementById('quake-wrapper').style.height = `${document.getElementById('content').scrollHeight}px`;
         
-        // ターゲット位置を返す
         return currentStep ? (currentStep.offsetTop - (vh - currentH) / 2) : 0;
     }
 
-    // --- 落下アニメーション ---
+    /**
+     * 落下アニメーション本体
+     */
     async function gravityFall(targetId, withSound = true) {
         if (isFalling) return;
         isFalling = true;
 
+        // 落下開始に合わせて暗転開始
+        applyDarkness(targetId);
+
         const targetY = updateLayout(targetId);
         const startY = window.pageYOffset;
         const distance = targetY - startY;
-        const duration = 2400;
+        const duration = 2500; // 落下秒数
 
         if (withSound) {
             await initAudio();
@@ -323,16 +494,19 @@
             function animate(t) {
                 if (!startTime) startTime = t;
                 const progress = Math.min((t - startTime) / duration, 1);
-                // イージング
+                
+                // 強めのイージング（最初はゆっくり、中盤加速、終盤減速）
                 const ease = progress < 0.5 ? 4 * progress ** 3 : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                
                 window.scrollTo(0, startY + (distance * ease));
+                
                 if (progress < 1) {
                     requestAnimationFrame(animate);
                 } else {
                     if (withSound) {
                         playLandSound();
                         document.getElementById('quake-wrapper').classList.add('run-quake');
-                        setTimeout(() => document.getElementById('quake-wrapper').classList.remove('run-quake'), 350);
+                        setTimeout(() => document.getElementById('quake-wrapper').classList.remove('run-quake'), 400);
                     }
                     isFalling = false;
                     resolve();
@@ -342,60 +516,68 @@
         });
     }
 
-    // --- クリア演出（無限落下） ---
+    /**
+     * 最終シーケンス（無限落下）
+     */
     async function startFinalSequence() {
         if (isFalling) return;
         isFalling = true;
         await initAudio();
-        const fallDur = 8000;
+        
+        const fallDur = 9000;
         playFallSound(fallDur);
 
-        // 落下距離を稼ぐ
-        document.getElementById('bottom-spacer').style.height = '80000px';
-        document.getElementById('quake-wrapper').style.height = '100000px';
+        // 仮想的な巨大空間を作成
+        document.getElementById('bottom-spacer').style.height = '100000px';
+        document.getElementById('quake-wrapper').style.height = '120000px';
         
-        // 3秒後からホワイトアウト開始
+        // ホワイトアウトのタイミング
         setTimeout(() => {
             document.getElementById('whiteout').classList.add('active');
-        }, 3000);
+        }, 4500);
 
         let startTime = null;
         function step(t) {
             if (!startTime) startTime = t;
             const p = (t - startTime) / fallDur;
-            const speed = 4500 * Math.pow(p, 2.5); 
+            // 指数関数的な加速
+            const speed = 6000 * Math.pow(p, 3); 
             window.scrollBy(0, speed);
+            
             if (p < 1) {
                 requestAnimationFrame(step);
             } else {
                 setTimeout(() => {
                     window.location.href = 'clear.html';
-                }, 800);
+                }, 600);
             }
         }
         requestAnimationFrame(step);
     }
 
-    // --- 初期化処理 ---
+    /**
+     * ページロード時の復元処理
+     */
     window.addEventListener('load', () => {
-        const saved = localStorage.getItem('hole_progress_v26') || 'step1';
-        if (saved === 'cleared') {
+        const savedProgress = localStorage.getItem('hole_progress_v26') || 'step1';
+        
+        if (savedProgress === 'cleared') {
             window.location.href = 'clear.html';
             return;
         }
 
-        updateLayout(saved);
-        updateDarkness();
+        // 初期レイアウト構築
+        updateLayout(savedProgress);
         window.scrollTo(0, 0);
 
-        // タイトル等を表示
+        // 固定セクションの表示
         ['title', 'info', 'desc'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.classList.add('show');
         });
         
-        // 進捗に合わせて表示
-        const targetIdx = flow.indexOf(saved);
+        // 進捗に応じた要素の表示と入力欄のロック
+        const targetIdx = flow.indexOf(savedProgress);
         flow.forEach((id, i) => {
             const el = document.getElementById(id);
             if(i <= targetIdx && el) {
@@ -410,83 +592,109 @@
             }
         });
 
-        // リロード時の復帰用（画面タップで落下開始）
-        if (saved !== 'step1') {
-            const resumeHandler = async () => {
+        // 復帰ユーザーへの案内と落下待機
+        if (savedProgress !== 'step1') {
+            const guide = document.getElementById('resume-guide');
+            guide.classList.add('visible');
+            
+            const resumeAction = async () => {
                 if (hasInteractedForResume) return;
                 hasInteractedForResume = true;
-                document.removeEventListener('click', resumeHandler);
-                document.removeEventListener('touchstart', resumeHandler);
+                
+                guide.classList.remove('visible');
+                document.removeEventListener('click', resumeAction);
+                document.removeEventListener('touchstart', resumeAction);
+                
                 await initAudio();
-                gravityFall(saved, true);
+                // リロード時も音付きで落下
+                gravityFall(savedProgress, true);
             };
-            document.addEventListener('click', resumeHandler);
-            document.addEventListener('touchstart', resumeHandler);
+            
+            document.addEventListener('click', resumeAction);
+            document.addEventListener('touchstart', resumeAction);
+        } else {
+            // 初回訪問時は白背景
+            applyDarkness('step1');
         }
     });
 
-    // --- 正解判定メイン ---
+    /**
+     * 入力チェック
+     */
     async function handleCheck(id) {
         if (isFalling) return;
         await initAudio();
-        const input = document.getElementById('i-' + id);
-        const val = input.value.trim();
         
-        if (answers[id]?.some(a => a.toLowerCase() === val.toLowerCase())) {
-            // 正解
+        const input = document.getElementById('i-' + id);
+        const userVal = input.value.trim().toLowerCase();
+        
+        const isCorrect = answers[id]?.some(ans => ans.toLowerCase() === userVal);
+        
+        if (isCorrect) {
+            // 正解演出
             input.disabled = true;
             document.getElementById('b-' + id).disabled = true;
             document.getElementById('correct').classList.add('show');
             
             setTimeout(() => {
                 document.getElementById('correct').classList.remove('show');
+                
                 if (id === 'lastStep') {
                     localStorage.setItem('hole_progress_v26', 'cleared');
                     startFinalSequence();
                 } else {
                     const nextId = flow[flow.indexOf(id) + 1];
                     localStorage.setItem('hole_progress_v26', nextId);
+                    
                     const nextEl = document.getElementById(nextId);
                     if(nextEl) {
                         nextEl.hidden = false;
                         gravityFall(nextId, true).then(() => {
                             nextEl.classList.add('show');
-                            updateDarkness();
                         });
                     }
                 }
-            }, 1400);
+            }, 1500);
         } else {
-            // 不正解
+            // 不正解演出（シェイク）
             input.animate([
-                {transform:'translateX(-6px)'},
-                {transform:'translateX(6px)'},
-                {transform:'translateX(0)'}
-            ], {duration: 100, iterations: 3});
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(0)' }
+            ], { duration: 80, iterations: 4 });
         }
     }
 
-    // --- イベントリスナー ---
+    /**
+     * グローバルクリックイベント
+     */
     document.addEventListener('click', (e) => {
+        // 送信ボタン判定
         if (e.target.id && e.target.id.startsWith('b-')) {
             handleCheck(e.target.id.replace('b-', ''));
         }
+        // 画像拡大判定
         if (e.target.classList.contains('step-img')) {
             document.getElementById('overlay-img').src = e.target.src;
             document.getElementById('image-overlay').style.display = 'flex';
         }
     });
 
+    /**
+     * キー入力判定（Enterキー）
+     */
     document.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && e.target.id && e.target.id.startsWith('i-')) {
             handleCheck(e.target.id.replace('i-', ''));
         }
     });
 
+    // リサイズ時にレイアウトを再計算
     window.addEventListener('resize', () => {
         const current = localStorage.getItem('hole_progress_v26') || 'step1';
         if(current !== 'cleared') updateLayout(current);
     });
+
 </script>
 </body>
 </html>
