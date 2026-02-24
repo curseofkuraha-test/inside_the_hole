@@ -1,0 +1,128 @@
+/* =========================================
+   基本設定 & 背景グリッド
+   ========================================= */
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background-color: #ffffff;
+    /* 15px間隔の薄い方眼グリッド */
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 15px 15px;
+    color: #000000;
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Meiryo', sans-serif;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 0.3em;
+    border-bottom: 2px solid #000;
+    display: table;
+    margin: 0 auto 40px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+}
+
+#accordion-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   アコーディオン構造
+   ========================================= */
+.accordion-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 階層が深くなるごとに左に少しマージンを設ける */
+.accordion-list .accordion-list {
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* =========================================
+   summary (見出し：黒背景に白文字)
+   ========================================= */
+summary {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 12px 20px;
+    cursor: pointer;
+    list-style: none; /* デフォルトの三角形を隠す */
+    position: relative;
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+    border: 1px solid #000;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+/* カスタムの「＋」「ー」アイコン */
+summary::before {
+    content: '+';
+    margin-right: 12px;
+    font-family: monospace;
+}
+
+details[open] > summary::before {
+    content: '-';
+}
+
+summary:hover {
+    background-color: #333333;
+}
+
+/* ブラウザ標準の三角形を非表示（Safari/Chrome対策） */
+summary::-webkit-details-marker {
+    display: none;
+}
+
+/* =========================================
+   hint-content (中身の文章：白背景に黒文字)
+   ========================================= */
+.hint-content {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 20px;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    text-align: left;
+    font-size: 15px;
+    white-space: pre-wrap; /* 改行を反映させる */
+}
+
+/* 入れ子になった場合の調整 */
+details[open] > .accordion-list {
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+/* =========================================
+   レスポンシブ対応
+   ========================================= */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 15px;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    summary {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
