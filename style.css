@@ -92,7 +92,7 @@ summary::-webkit-details-marker {
 /* =========================================
    hint-content (中身の文章：白背景に黒文字)
    ========================================= */
-.hint-content {
+   .hint-content {
     background-color: #ffffff;
     color: #000000;
     padding: 20px;
@@ -101,7 +101,10 @@ summary::-webkit-details-marker {
     border-bottom: 2px solid #000;
     text-align: left;
     font-size: 15px;
-    white-space: pre-wrap; /* 改行を反映させる */
+    /* 修正ポイント：pre-wrapを解除、または改行のみを許可する設定に */
+    white-space: normal; 
+    /* もし途中の改行は維持したい場合は下記を使用してください */
+    /* white-space: pre-line; */ 
 }
 
 /* 入れ子になった場合の調整 */

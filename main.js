@@ -66,15 +66,17 @@ function buildTreeFromCsvText(csvText) {
 
 function buildHtmlRecursive(treeNode) {
   if (typeof treeNode === 'object' && treeNode !== null) {
-    let html = '<ul class="accordion-list">\n';
+    let html = '<ul class="accordion-list">'; // 改行を削除
     for (const key in treeNode) {
-      // 見出しにもHTMLタグを使用可能にするためそのまま出力
-      html += `<li><details><summary>${key}</summary>${buildHtmlRecursive(treeNode[key])}</details></li>\n`;
+      // <li>...</li> の間にも改行を入れないように繋げます
+      html += `<li><details><summary>${key}</summary>${buildHtmlRecursive(treeNode[key])}</details></li>`;
     }
-    html += '</ul>\n';
+    html += '</ul>'; // 改行を削除
     return html;
   } else if (typeof treeNode === 'string') {
-    return `<div class="hint-content">\n  ${treeNode}\n</div>\n`;
+    // <div>の直後に改行やスペースを入れず、直接文字列を連結します
+    // また、念のためここでも .trim() をかけると安全です
+    return `<div class="hint-content">${treeNode.trim()}</div>`;
   }
   return '';
 }

@@ -77,7 +77,7 @@
             display: none !important; 
         }
 
-        #title, #info, #desc { 
+        #title, #matter, #info, #desc { 
             margin-bottom: 100vh; 
         }
 
@@ -88,13 +88,19 @@
             flex-shrink: 0;
         }
 
-        h1 { 
-            font-size: clamp(45px, 15vw, 120px); 
-            letter-spacing: 0.25em; 
-            font-weight: 900; 
-            margin: 0; 
-            color: #fff; 
-            text-shadow: 0 0 30px rgba(0,0,0,0.8);
+        /* タイトル画像用スタイル */
+        .main-title-img {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
         }
         p { 
             line-height: 2.2; 
@@ -228,40 +234,76 @@
     <div id="content">
         <div id="begin-spacer" class="spacer"></div>
         
-        <div class="section" id="title"><h1>HOLE</h1></div>
+        <div class="section" id="title">
+            <img src="image/title.png" class="main-title-img" alt="HOLE">
+        </div>
+
+        <div class="section" id="matter">
+            <h2>「HOLE」を始める前に</h2><br>
+            <p>以下の内容物（計6点）があるかを確認してください。<br><br>
+            １:問題１と２が両面に印刷された紙<br>
+            ２:問題３と４が両面に印刷された紙<br>
+            ３:アンサーシートと書かれた穴の空いた紙<br>
+            ４:memoと書かれた用紙<br>
+            ５:STEP2の封筒<br>
+            ６:STEP3の封筒<br><br>
+            どれか一つでも不足している場合はお手数ですが、<br>
+            下記窓口までご連絡をお願いいたします。<br><br>
+            株式会社エフェックス<br>
+            hanbai_nazo@efex.co.jp</p>
+        </div>
         <div class="section" id="info">
             <img src="image/attention_title.png" class="step-title-img" alt="ATTENTION">
-            <p>謎が解けなくて困った際は、<br>ヒントをご活用ください。</p>
+            <p>・ソースコードの閲覧はお控えください。<br>※こちらのコンテンツを楽しめなくなってしまいます。<br>・音声はONにしてお楽しみください。<br>・各ステップの答えがわかったら、解答欄に入力してください。<br>・各STEPの画像が見えない場合は、タップまたはクリックで画像を拡大が可能です。<br>・ヒントは各解答欄下のリンクから閲覧が可能です。
+            </p>
         </div>
         <div class="section" id="desc">
-            <p>正しい「言葉」を投げ入れるたび、<br>穴は深く、あなたを飲み込んでいく。</p>
+            <p>「正解」を投げ入れるたび、<br>穴は深くなり、あなたを深淵へと誘う。</p>
         </div>
 
         <div class="section" id="step1">
             <img src="image/step1_title.png" class="step-title-img" alt="STEP 1">
-            <div class="step-text">すべてはここから始まる。</div>
+            <div class="step-text">手始めに</div>
             <div class="input-group">
                 <input id="i-step1" autocomplete="off" placeholder="答えを入力">
                 <button id="b-step1">送信</button>
             </div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="s-step2" class="spacer"></div>
         <div class="section" id="step2" hidden>
             <img src="image/step2_title.png" class="step-title-img" alt="STEP 2">
-            <div class="step-text">見えているものが全てではない。</div>
+            <div class="step-text">
+                STEP2の封筒を開き、<br>以下の内容物（計5点）があるかを確認してください。<br><br>
+                １:問題AとBが両面に印刷された穴が３つ空いた紙<br>
+                ２:問題CとDが両面に印刷された穴が３つ空いた紙<br>
+                ３:問題EとFが両面に印刷された穴が３つ空いた紙<br>
+                ４:台紙と書かれた紙<br>
+                ５:２つ折りされている紙<br><br>
+                どれか一つでも不足している場合はお手数ですが、<br>
+                下記窓口までご連絡をお願いいたします。<br><br>
+                株式会社エフェックス<br>
+                hanbai_nazo@efex.co.jp
+            </div>
             <img src="image/step2.png" class="step-img">
             <div class="input-group"><input id="i-step2" autocomplete="off"><button id="b-step2">送信</button></div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="s-step3-1" class="spacer"></div>
         <div class="section" id="step3-1" hidden>
             <img src="image/step3-1_title.png" class="step-title-img" alt="STEP 3-1">
-            <div class="step-text">深く、もっと深く。</div>
+            <div class="step-text">
+                STEP3の封筒を開き、<br>以下の内容物（計2点）があるかを確認してください。<br><br>
+                １:正方形の紙２枚（予備含む）<br><br>
+                どれか一つでも不足している場合はお手数ですが、<br>
+                下記窓口までご連絡をお願いいたします。<br><br>
+                株式会社エフェックス<br>
+                hanbai_nazo@efex.co.jp
+            </div>
             <div class="input-group"><input id="i-step3-1" autocomplete="off"><button id="b-step3-1">送信</button></div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="s-step3-2" class="spacer"></div>
@@ -269,7 +311,7 @@
             <img src="image/step3-2_title.png" class="step-title-img" alt="STEP 3-2">
             <img src="image/step3-2.png" class="step-img">
             <div class="input-group"><input id="i-step3-2" autocomplete="off"><button id="b-step3-2">送信</button></div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="s-step4" class="spacer"></div>
@@ -277,7 +319,7 @@
             <img src="image/step4_title.png" class="step-title-img" alt="STEP 4">
             <img src="image/step4.png" class="step-img step5-img">
             <div class="input-group"><input id="i-step4" autocomplete="off"><button id="b-step4">送信</button></div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="s-step5" class="spacer"></div>
@@ -285,7 +327,7 @@
             <img src="image/step5_title.png" class="step-title-img" alt="STEP 5">
             <img src="image/step5.png" class="step-img step5-img">
             <div class="input-group"><input id="i-step5" autocomplete="off"><button id="b-step5">送信</button></div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="s-lastStep" class="spacer"></div>
@@ -293,14 +335,14 @@
             <img src="image/lastStep_title.png" class="step-title-img" alt="LAST STEP">
             <img src="image/lastStep.png" class="step-img step5-img">
             <div class="input-group"><input id="i-lastStep" autocomplete="off"><button id="b-lastStep">送信</button></div>
-            <a href="hint.html" target="_blank" class="hint-link">ヒントを表示</a>
+            <a href="hint.html" target="_blank" class="hint-link">ヒントはこちらから</a>
         </div>
 
         <div id="bottom-spacer" class="spacer"></div>
     </div>
 </div>
 
-<div id="correct">正解</div>
+<div id="correct">正 解</div>
 <div id="image-overlay" onclick="this.style.display='none'"><img src="" id="overlay-img"></div>
 
 <script>
@@ -448,7 +490,7 @@
         updateLayout(saved);
         setScrollPos(0);
 
-        ['title', 'info', 'desc'].forEach((id, i) => {
+        ['title', 'matter', 'info', 'desc'].forEach((id, i) => {
             setTimeout(() => {
                 const el = document.getElementById(id);
                 if(el) el.classList.add('show');
