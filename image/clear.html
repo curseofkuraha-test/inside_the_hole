@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>HOLE - CLEAR</title>
+    
+    <meta property="og:title" content="HOLE クリア" />
+    <meta property="og:description" content="私は奈落の底に辿り着いた。" />
+    <meta property="og:image" content="https://あなたのドメイン/image/clear_result_pc.png" />
+    <meta property="og:url" content="https://あなたのドメイン/index.html" /> <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #fff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        .clear-container {
+            position: relative; width: 100%; height: 60%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; animation: fadeIn 3s forwards;
+        }
+        .clear-image { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .img-sp { display: none; }
+        @media (max-width: 768px), (orientation: portrait) { .img-pc { display: none; } .img-sp { display: block; } }
+
+        .ui-group {
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            margin-top: 30px; opacity: 0; animation: fadeIn 3s 1s forwards;
+        }
+        .btn {
+            width: 240px; padding: 14px; border-radius: 9999px; 
+            text-align: center; text-decoration: none; font-weight: bold; font-size: 14px;
+            transition: 0.3s;
+        }
+        .btn-share { background: #000; color: #fff; }
+        .btn-sub { background: #f0f0f0; color: #333; border: 1px solid #ddd; }
+        .btn:hover { opacity: 0.7; transform: scale(1.02); }
+
+        .reset-link { margin-top: 20px; color: #ccc; font-size: 11px; text-decoration: underline; cursor: pointer; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="clear-container">
+    <img src="image/clear_result_sp.png" class="clear-image img-sp">
+    <img src="image/clear_result_pc.png" class="clear-image img-pc">
+</div>
+
+<div class="ui-group">
+    <a id="x-share" href="#" target="_blank" class="btn btn-share">結果をシェアする</a>
+    
+    <a href="https://forms.gle/ZdtxnvSvTAAHu5xk8" target="_blank" class="btn btn-sub">アンケートはこちらから！</a>
+    <a href="inside_story.html" class="btn btn-sub">裏話はこちらから！</a>
+
+    <div class="reset-link" onclick="resetGame()">最初から遊ぶ（テスト用）</div>
+</div>
+
+<script>
+    const shareText = "謎解き「HOLE」をクリアしました。\n私は奈落の底に辿り着いた。";
+    const shareUrl = "https://あなたのドメイン/index.html"; // ここを公開URLに書き換えてください
+    document.getElementById('x-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+
+    function resetGame() {
+        if(confirm('リセットしますか？')){ localStorage.removeItem('hole_progress_v26'); window.location.href='index.html'; }
+    }
+</script>
+</body>
+</html>
