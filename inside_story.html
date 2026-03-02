@@ -2,49 +2,103 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex,nofollow">
     <title>HOLE - INSIDE STORY</title>
     <style>
         * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; background: #fff; }
-        #soil { position: fixed; inset: 0; background: #e0d0c0; z-index: 0; }
+        html, body { margin: 0; padding: 0; background: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        
+        #soil { position: fixed; inset: 0; background: #ffffff; z-index: 0; }
+        
+        #quake-wrapper { position: relative; width: 100%; z-index: 1; min-height: 100vh; }
+        
         #hole {
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
             width: clamp(280px, 75vw, 800px); min-height: 100%;
-            background: #2b1d0e; box-shadow: inset 0 0 80px rgba(0,0,0,1);
-            z-index: 1;
+            background: #2b1d0e; box-shadow: inset 0 0 100px rgba(0,0,0,1);
         }
+        
         #content {
             position: relative; width: clamp(280px, 75vw, 800px); margin: 0 auto;
-            z-index: 2; color: #ccc; padding: 100px 10%; line-height: 2;
+            z-index: 2; color: #ccc; padding: 100px 5% 200px 5%; line-height: 2;
         }
-        h2 { color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; margin-top: 100px; }
-        .back-link { display: block; margin-top: 100px; color: #888; text-align: center; }
+
+        .story-title-img {
+            display: block; width: 100%; max-width: 500px; height: auto; 
+            margin: 0 auto 80px auto; filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+        }
+        
+        h1 { color: #fff; text-align: center; margin-bottom: 60px; }
+        h2 { color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; margin-top: 80px; font-size: 1.5rem; }
+        p { margin-bottom: 2em; text-align: justify; color: #ddd; }
+        
+        .back-link { display: block; margin-top: 100px; color: #888; text-decoration: none; text-align: center; padding: 20px; }
+        .back-link:hover { color: #fff; }
     </style>
 </head>
 <body>
     <div id="soil"></div>
-    <div id="hole"></div>
-    <div id="content">
-        <h1>裏話</h1>
-        <p>ここに制作の意図や裏話を記載してください。</p>
-        
-        <h2>デザインについて</h2>
-        <p>深く潜るにつれて暗くなる演出は……</p>
+    <div id="quake-wrapper">
+        <div id="hole"></div>
+        <div id="content">
+            <img src="image/title.png" class="story-title-img" alt="HOLE">
+            
+            <h1>裏話</h1>
+<p>まずは、HOLEのクリアおめでとうございます！製作者のKURAHAと申します。知ってくださっている方も、初めての方も、以後覚えていただけると嬉しいです！</p>
 
-        <h2>音声について</h2>
-        <p>落下音の周波数は……</p>
+<p>今回の様々な「穴」を駆使した謎解き、いかがだったでしょうか？「穴が持つ可能性」を多角的に掘り下げ、各ステップで要素が被らないよう、また被る場合でも異なる味付けになるよう工夫を凝らしました。各STEPの意図を少しだけご紹介しましょう。</p>
 
-        <a href="clear.html" class="back-link">クリアページへ戻る</a>
-        <div style="height: 200px;"></div> </div>
+<h2>STEP 1</h2>
+<p>STEP 1では、実際に空いている穴をそのまま「あな」または「ホール」として扱う、穴の存在理由を活かしています。1〜2問目あたりでオチに気づいた方はすごい！序盤に「穴」という概念を直接意識させるような構成にしていました。</p>
+
+<h2>STEP 2</h2>
+<p>続いてSTEP 2は、穴を利用して謎を作り出し、それを解くというものでした。A〜Fを見比べていただくとわかる通り、穴の位置は一切重複していません。<br>
+長方形の紙のため、最低でも180度回転するというパターンが存在します。そのため、別解つぶしや穴位置の管理は難解になります。今回は、点対象の位置まで全て見込んで穴から出る位置を36箇所とパターン化し、回転・反転でも一切穴の位置が重複しないよう仕上げています。（※実はあえて重複させる案もありましたが、後のSTEPでやりたいギミックを優先し、方針を変更しました。）</p>
+
+<h2>STEP 3</h2>
+<p>このSTEPは「HOLE」というテーマであるにも関わらず、穴という要素は一切出てきません！という虚をつかれる見た目の紙です。謎を解き進めると、ハサミを使って自らの手で穴を開けます。ここで組み込んだ要素は、穴も状況もキリヒラク」という要素です。<br>
+そしてこだわったのが「穴グラム」です。STEPの画像をぜひ長押しして動かしたり保存してみてください。「穴グラム」の穴が、ちゃんと画像に空いていることが確認できるはずです。「再挑戦」という言葉を選んだ理由も、実際にやり直す仕掛けに関わっています。</p>
+
+<h2>STEP 4</h2>
+<p>ここで組み込みたかったのは、穴を駆使して謎を改変することです。穴の空いた紙を重ねて指定の穴を塗りつぶすことで、A〜Fの謎が以下のように変化します。<br>
+・A：穴あきコインを塗ることで「穴の空いていない硬貨」になる<br>
+・B：星の部分を塗ることで「丸」という図形になる<br>
+・C：三角のシルエットを塗ることで「丸」という図形になる<br>
+・D：半月のシルエットを塗ることで「新月」になる<br>
+・E：Oの一部を塗ることで「C」になる<br>
+・F：樹木を塗りつぶすことで「使用しない文字」になる<br>
+このような変化により、台紙への置く向きが変わったり変わらなかったりします。</p>
+
+<h2>STEP 5</h2>
+<p>STEP 2だけでなく、STEP 1にも穴が影響します。ここでは「穴から見える要素のみを考える」という点と、「穴グラム」の組み合わせをコンセプトにしました。1の問題のアナグラムが一番難しかったかなと思います。<br>
+単語の取り扱いに悩みましたが、番号があるからにはもう一度解答欄に埋めてもいいな！という想いもあり、アンサーシートをSTEP2の紙に置く発想に至りました。STEP1の答えを埋めた状態でSTEP2の指定の紙に置くと「まざー」という単語ができる箇所がありますが、これは偶然の産物です。</p>
+
+<h2>LAST STEP</h2>
+<p>穴を開けたからには吊るしたい……という着想のもと作成しています。A〜Fの3枚の紙は裏表の向きや順番まで考慮すると、単純計算で総パターン数は 6^4=1296 通りも存在します！途方もないですね！<br>
+私はこういうのを実装するのが好きで、現実的に目星を付けられるよう「ACE」と「BED」という決め打ちの組み合わせで作成しています。これに「穴グラム」という要素をミックスする形に落とし込みました。</p>
+
+<h2>さいごに</h2>
+<p>今回のコンテンツ「HOLE」は、名前の通り「穴」という要素に対して真っ直ぐ、時には斜め上から向き合い、多方面から可能性を引き出したコンテンツでした。<br>
+次回の作品にもぜひご期待ください。ここまで読んでくださりありがとうございました。</p>   
+
+            <a href="clear.html" class="back-link">クリアページへ戻る</a>
+        </div>
+    </div>
 
     <script>
         window.addEventListener('scroll', () => {
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
             const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-            const p = Math.min(window.pageYOffset / scrollMax, 1);
-            document.getElementById('soil').style.background = `rgb(${224-200*p}, ${208-190*p}, ${192-180*p})`;
-            document.getElementById('hole').style.background = `rgb(${43-40*p}, ${29-27*p}, ${14-13*p})`;
+            const p = Math.min(scrollY / (scrollMax || 1), 1);
+
+            const val = Math.round(255 - (255 - 17) * p);
+            document.getElementById('soil').style.background = `rgb(${val}, ${val}, ${val})`;
+
+            const hR = Math.round(43 - 43 * p);
+            const hG = Math.round(29 - 29 * p);
+            const hB = Math.round(14 - 14 * p);
+            document.getElementById('hole').style.background = `rgb(${hR}, ${hG}, ${hB})`;
         });
     </script>
 </body>
