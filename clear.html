@@ -21,8 +21,11 @@
             background-position: center;
             background-size: cover;
             
-            /* デフォルトは中央寄せ */
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            /* スマホ：中央下配置 */
+            display: flex; flex-direction: column; 
+            justify-content: flex-end; 
+            align-items: center;
+            padding-bottom: 60px;
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
@@ -30,15 +33,13 @@
         @media (max-width: 768px), (orientation: portrait) {
             body { background-image: url('image/clear_result_sp.png'); }
         }
-        /* PC用背景 */
+        
+        /* PC用：右下配置 */
         @media (min-width: 769px) {
             body { 
                 background-image: url('image/clear_result_pc.png');
-                /* ここでPC時は右下に配置 */
-                align-items: flex-end; 
-                justify-content: flex-end;
-                padding-right: 50px; 
-                padding-bottom: 50px;
+                align-items: flex-end;    /* 右寄せ */
+                padding-right: 50px;      /* 右端の余白 */
             }
         }
 
