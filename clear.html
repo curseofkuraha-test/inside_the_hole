@@ -3,65 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex,nofollow">
     <title>HOLE - CLEAR</title>
     
-    <meta property="og:title" content="HOLE クリア" />
-    <meta property="og:description" content="私は奈落の底に辿り着いた。" />
-    <meta property="og:image" content="https://あなたのドメイン/image/clear_result_pc.png" />
-    <meta property="og:url" content="https://あなたのドメイン/index.html" /> 
-    <meta name="twitter:card" content="summary_large_image" />
-
     <style>
-        * { box-sizing: border-box; }
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            /* 背景設定：coverで余白なし、centerで中央基準に */
-            background-color: #fff;
+        /* デフォルトの余白を完全に削除 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* スクロールバーによる余白も防ぐ */
+            background-color: #fff; /* 画像が読み込まれるまでの背景色 */
             background-repeat: no-repeat;
             background-position: center;
-            background-size: cover;
-            
-            /* スマホ：中央下配置 */
-            display: flex; flex-direction: column; 
-            justify-content: flex-end; 
-            align-items: center;
-            padding-bottom: 60px;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-size: cover; /* ここで画面全体を強制的に埋める */
+            display: flex;
+            font-family: sans-serif;
         }
 
         /* スマホ用：縦長背景画像 */
         @media (max-width: 768px), (orientation: portrait) {
-            body { background-image: url('image/clear_result_sp.png'); }
+            body { 
+                background-image: url('image/clear_result_sp.png');
+                justify-content: center; /* スマホは中央下へ */
+                align-items: flex-end;
+                padding-bottom: 60px;
+            }
         }
         
-        /* PC用：横長背景画像・右下配置 */
+        /* PC用：横長背景画像 */
         @media (min-width: 769px) {
             body { 
                 background-image: url('image/clear_result_pc.png');
-                align-items: flex-end;    /* 右寄せ */
-                padding-right: 50px;      /* 右端の余白 */
-                padding-bottom: 50px;     /* 下端の余白 */
+                justify-content: flex-end; /* PCは右下へ */
+                align-items: flex-end;    
+                padding-right: 50px;      
+                padding-bottom: 50px;     
             }
         }
 
         .ui-group {
             display: flex; flex-direction: column; align-items: center; gap: 12px;
-            opacity: 0; animation: fadeIn 3s 1s forwards;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px; border-radius: 20px;
         }
         .btn {
             width: 240px; padding: 14px; border-radius: 9999px; 
             text-align: center; text-decoration: none; font-weight: bold; font-size: 14px;
-            transition: 0.3s;
         }
         .btn-share { background: #000; color: #fff; }
         .btn-sub { background: #f0f0f0; color: #333; border: 1px solid #ddd; }
-        .btn:hover { opacity: 0.7; transform: scale(1.02); }
-
-        .reset-link { margin-top: 20px; color: #ccc; font-size: 11px; text-decoration: underline; cursor: pointer; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .reset-link { margin-top: 10px; color: #999; font-size: 10px; text-decoration: underline; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -70,11 +62,11 @@
     <a id="x-share" href="#" target="_blank" class="btn btn-share">結果をシェアする</a>
     <a href="https://forms.gle/ZdtxnvSvTAAHu5xk8" target="_blank" class="btn btn-sub">アンケートはこちらから！</a>
     <a href="inside_story.html" class="btn btn-sub">裏話はこちらから！</a>
-    <div class="reset-link" onclick="resetGame()">最初から遊ぶ（テスト用）</div>
+    <div class="reset-link" onclick="resetGame()">最初から遊ぶ</div>
 </div>
 
 <script>
-    const shareText = "謎解き「HOLE」をクリアしました。\n私は奈落の底に辿り着いた。";
+    const shareText = "謎解き「HOLE」をクリアしました。";
     const shareUrl = "https://あなたのドメイン/index.html"; 
     document.getElementById('x-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
 
