@@ -461,7 +461,7 @@
         isFalling = true;
         await initAudio();
         const fallDur = 8500;
-        playFallSound(fallDur);
+        playFallSound(fallDur); // 音声再生を復活
         document.getElementById('bottom-spacer').style.height = '100000px';
         document.getElementById('quake-wrapper').style.height = '120000px';
         setTimeout(() => { document.getElementById('whiteout').classList.add('active'); }, 4500);
