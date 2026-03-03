@@ -62,17 +62,12 @@
     <a id="x-share" href="#" target="_blank" class="btn btn-share">クリアしたことをシェアする</a>
     <a href="https://forms.gle/ZdtxnvSvTAAHu5xk8" target="_blank" class="btn btn-sub">アンケートはこちらから！</a>
     <a href="inside_story.html" class="btn btn-sub">裏話はこちらから！</a>
-    <div class="reset-link" onclick="resetGame()">最初から遊ぶ</div>
 </div>
 
 <script>
     const shareText = "持ち帰り謎「HOLE」の全ての謎を解き明かした！\n\n#エフェックス謎解き\n#HOLE謎\n";
     const shareUrl = "https://あなたのドメイン/index.html"; 
     document.getElementById('x-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-
-    function resetGame() {
-        if(confirm('リセットしますか？')){ localStorage.removeItem('hole_progress_v26'); window.location.href='index.html'; }
-    }
 </script>
 </body>
 </html>
