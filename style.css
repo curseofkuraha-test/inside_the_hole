@@ -1,7 +1,7 @@
 /* =========================================
    基本設定 & 背景グリッド
    ========================================= */
-body {
+   body {
     margin: 0;
     padding: 40px 20px;
     background-color: #ffffff;
@@ -93,7 +93,7 @@ summary::-webkit-details-marker {
 /* =========================================
    hint-content (中身の文章：白背景に黒文字)
    ========================================= */
-   .hint-content {
+.hint-content {
     background-color: #ffffff;
     color: #000000;
     padding: 20px;
@@ -106,6 +106,14 @@ summary::-webkit-details-marker {
     white-space: normal; 
     /* もし途中の改行は維持したい場合は下記を使用してください */
     /* white-space: pre-line; */ 
+}
+
+/* アコーディオン内の画像設定 */
+.hint-content img {
+    display: block;
+    max-width: calc(100% - 20px);
+    margin: 10px auto;
+    height: auto;
 }
 
 /* 入れ子になった場合の調整 */
